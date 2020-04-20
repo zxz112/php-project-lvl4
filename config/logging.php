@@ -33,12 +33,6 @@ return [
     |                    "custom", "stack"
     |
     */
-    'rollbar' => [
-        'driver' => 'monolog',
-        'handler' => \Rollbar\Laravel\MonologHandler::class,
-        'access_token' => env('ROLLBAR_TOKEN'),
-        'level' => 'debug',
-    ],
 
     'channels' => [
         'stack' => [
@@ -100,6 +94,13 @@ return [
         'null' => [
             'driver' => 'monolog',
             'handler' => NullHandler::class,
+        ],
+        
+        'rollbar' => [
+            'driver' => 'monolog',
+            'handler' => \Rollbar\Laravel\MonologHandler::class,
+            'access_token' => env('ROLLBAR_TOKEN'),
+            'level' => 'debug',
         ],
 
         'emergency' => [
