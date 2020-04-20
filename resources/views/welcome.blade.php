@@ -81,7 +81,8 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Task Manager
+                    <?php \Log::debug('Here is some debug information'); ?>
                 </div>
 
                 <div class="links">
