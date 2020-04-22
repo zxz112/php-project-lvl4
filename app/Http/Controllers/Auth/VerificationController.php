@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\VerifiesEmails;
 
 class VerificationController extends Controller
 {
+    use VerifiesEmails;
+    
     /*
     |--------------------------------------------------------------------------
     | Email Verification Controller
@@ -19,7 +21,6 @@ class VerificationController extends Controller
     |
     */
 
-    use VerifiesEmails;
 
     /**
      * Where to redirect users after verification.
