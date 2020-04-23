@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+@include('flash::message')
 {{Form::open(['url' => route('task_statuses.create'), 'method'=>'GET'])}}
     {{Form::submit('Add new!', ['class' => 'btn btn-warning btn-bg'])}}
 {{Form::close()}}
@@ -11,10 +12,10 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">id</th>
-                    <th scope="col">name</th>
-                    <th scope="col">created at</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col">@lang('status.id')</th>
+                    <th scope="col">@lang('status.name')</th>
+                    <th scope="col">@lang('status.create')</th>
+                    <th scope="col">@lang('status.actions')</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,10 +25,8 @@
                         <td>{{$status->name}}</td>
                         <td>{{$status->created_at}}</td>
                         <td>
-                        {{Form::open(array('url' => route('task_statuses.destroy', $status->id), 'method' => 'delete'))}}
-                        {{Form::submit('Delete!', ['class' => 'btn btn-warning btn-bg'])}}
-                        {{Form::close()}}
-                        <a href="{{route('task_statuses.edit', $status->id)}}">Edit
+                        <td><a href="{{route('task_statuses.destroy', $status->id)}}" data-confirm="Вы уверены?" data-method="delete" rel="nofollow">@lang('status.delete')</td>
+                        <td><a href="{{route('task_statuses.edit', $status->id)}}">@lang('status.edit')</td>
                         </td>
                         </td>
                     </tr>

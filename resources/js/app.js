@@ -1,3 +1,4 @@
 require('./bootstrap');
+
 const ujs = require('@rails/ujs');
-ujs.start()
+ujs.start();

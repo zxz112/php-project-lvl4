@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\TaskStatus;
+use Auth;
 
 class TaskStatusController extends Controller
 {
@@ -14,7 +15,7 @@ class TaskStatusController extends Controller
      */
     public function index()
     {
-        $taskStatuses = TaskStatus::paginate();
+        $taskStatuses = TaskStatus::get();
         return view('task_status.index', compact('taskStatuses'));
     }
 
@@ -25,8 +26,13 @@ class TaskStatusController extends Controller
      */
     public function create()
     {
-        $taskStatus = new TaskStatus();
-        return view('task_status.create', compact('taskStatus'));
+        if (Auth::check()) {
+            $taskStatus = new TaskStatus();
+            return view('task_status.create', compact('taskStatus'));
+        }
+        flash('need auth')->error();
+        return redirect()
+            ->route('task_statuses.index');
     }
 
     /**
@@ -37,13 +43,18 @@ class TaskStatusController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $this->validate($request, [
+        if (Auth::check()) {
+            $data = $this->validate($request, [
             'name' => 'required|unique:task_statuses',
-        ]);
-
-        $taskStatus = new TaskStatus();
-        $taskStatus->fill($data);
-        $taskStatus->save();
+            ]);
+            $taskStatus = new TaskStatus();
+            $taskStatus->fill($data);
+            $taskStatus->save();
+            flash('status has been added')->success();
+            return redirect()
+                ->route('task_statuses.index');
+        }
+        flash('failed add')->error();
         return redirect()
             ->route('task_statuses.index');
     }
@@ -68,8 +79,12 @@ class TaskStatusController extends Controller
      */
     public function edit($id)
     {
-        $taskStatus = TaskStatus::find($id);
-        return view('task_status.edit', compact('taskStatus'));
+        if (Auth::check()) {
+            $taskStatus = TaskStatus::find($id);
+            return view('task_status.edit', compact('taskStatus'));
+        }
+        flash('failed edit')->error();
+        return redirect()->route('task_statuses.index');
     }
 
     /**
@@ -85,6 +100,7 @@ class TaskStatusController extends Controller
         $data = $this->validate($request, ['name' => 'required|unique:task_statuses']);
         $taskStatus->fill($data);
         $taskStatus->save();
+        flash('success edit')->success();
         return redirect()->route('task_statuses.index');
     }
 
@@ -96,12 +112,16 @@ class TaskStatusController extends Controller
      */
     public function destroy($id)
     {
-        $taskStatus = TaskStatus::find($id);
-        if ($taskStatus) {
-            $taskStatus->delete();
+        if (Auth::check()) {
+            $taskStatus = TaskStatus::find($id);
+            if ($taskStatus) {
+                $taskStatus->delete();
+            }
+            flash('success delete')->success();
+            return redirect()
+                ->route('task_statuses.index');
         }
-        return redirect()
-            ->route('task_statuses.index')
-            ->with('success', 'Article removed successfully');
+        flash('failed delete')->error();
+        return redirect()->route('task_statuses.index');
     }
 }
