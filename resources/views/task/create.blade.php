@@ -23,10 +23,12 @@
     {{ Form::text('description', '', ['class' => 'form-control']) }}
 </div>
 <div class="form-group col-md-4"> 
-    {{ Form::select('task_status_id', $statuses, '73', ['class' => 'form-control']) }}
+    {{ Form::label('task_status_id', 'Status') }}
+    {{ Form::select('task_status_id', $statuses, '', ['class' => 'form-control']) }}
 </div>
 <div class="form-group col-md-4"> 
-    {{ Form::select('assigned_to_id', $users, 'null', ['class' => 'form-control'], ) }}
+    {{ Form::label('assigned_to_id', 'Assigned') }}
+    {{ Form::select('assigned_to_id', $users, 'empty', ['class' => 'form-control'])}}
 </div>
     {{Form::submit('Add new!', ['class' => 'btn btn-warning btn-bg'])}}
     

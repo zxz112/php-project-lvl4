@@ -15,7 +15,7 @@ class TaskStatusController extends Controller
      */
     public function index()
     {
-        $taskStatuses = TaskStatus::get();
+        $taskStatuses = TaskStatus::paginate();
         return view('task_status.index', compact('taskStatuses'));
     }
 
@@ -54,7 +54,6 @@ class TaskStatusController extends Controller
             return redirect()
                 ->route('task_statuses.index');
         }
-        flash('failed add')->error();
         return redirect()
             ->route('task_statuses.index');
     }
@@ -96,11 +95,14 @@ class TaskStatusController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $taskStatus = TaskStatus::find($id);
-        $data = $this->validate($request, ['name' => 'required|unique:task_statuses']);
-        $taskStatus->fill($data);
-        $taskStatus->save();
-        flash('success edit')->success();
+        if (Auth::check()) {
+            $taskStatus = TaskStatus::find($id);
+            $data = $this->validate($request, ['name' => 'required|unique:task_statuses']);
+            $taskStatus->fill($data);
+            $taskStatus->save();
+            flash('success edit')->success();
+            return redirect()->route('task_statuses.index');
+        }
         return redirect()->route('task_statuses.index');
     }
 
@@ -113,13 +115,13 @@ class TaskStatusController extends Controller
     public function destroy($id)
     {
         if (Auth::check()) {
-            $taskStatus = TaskStatus::find($id);
-            if ($taskStatus) {
-                $taskStatus->delete();
+            $status = TaskStatus::find($id);
+            if ($status) {
+                $status->delete();
+                flash('success delete')->success();
+                return redirect()
+                    ->route('task_statuses.index');
             }
-            flash('success delete')->success();
-            return redirect()
-                ->route('task_statuses.index');
         }
         flash('failed delete')->error();
         return redirect()->route('task_statuses.index');

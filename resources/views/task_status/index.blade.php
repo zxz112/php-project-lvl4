@@ -31,12 +31,13 @@
                         @if (\Auth::check())
                         <td><a href="{{route('task_statuses.destroy', $status->id)}}" data-confirm="Вы уверены?" data-method="delete" rel="nofollow">@lang('status.delete')
                         <a href="{{route('task_statuses.edit', $status->id)}}">@lang('status.edit')</td>
-                        </td>
+                        </td>   
                         @endif
                     </tr>
                 @endforeach
             </tbody>
         </table>
+        {{$taskStatuses->links()}}
     <div>
 </div>    
 @endsection

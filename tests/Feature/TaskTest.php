@@ -25,5 +25,4 @@ class TaskTest extends TestCase
         $response = $this->get(route('tasks.index'));
         $response->assertOk();
     }
-
 }

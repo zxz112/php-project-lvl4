@@ -14,14 +14,14 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">@lang('status.id')</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">@lang('status.name')</th>
-                    <th scope="col">creator</th>
-                    <th scope="col">asignee</th>
-                    <th scope="col">@lang('status.create')</th>
+                    <th scope="col">@lang('task.id')</th>
+                    <th scope="col">@lang('task.status')</th>
+                    <th scope="col">@lang('task.name')</th>
+                    <th scope="col">@lang('task.creator')</th>
+                    <th scope="col">@lang('task.asignee')</th>
+                    <th scope="col">@lang('task.create')</th>
                     @if (\Auth::check())
-                    <th scope="col">@lang('status.actions')</th>
+                    <th scope="col">@lang('task.actions')</th>
                     @endif
                 </tr>
             </thead>
@@ -30,7 +30,7 @@
                     <tr>
                         <td>{{$task->id}}</td>
                         <td>{{$task->status->name}}</td>
-                        <td>{{$task->name}}</td>
+                        <td><a href="{{route('tasks.show', $task)}}">{{$task->name}}</a></td>
                         <td>{{$task->creator->name}}</td>
                         <td>{{$task->assigner->name ?? ''}}</td>
                         <td>{{$task->created_at}}</td>
@@ -45,6 +45,7 @@
                 @endforeach
             </tbody>
         </table>
+        {{$tasks->links()}}
     <div>
 </div>    
 @endsection

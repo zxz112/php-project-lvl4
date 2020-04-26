@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Task;
 use Illuminate\Http\Request;
+use Auth;
 
 class TaskController extends Controller
 {
@@ -14,7 +15,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::get();
+        $tasks = Task::paginate();
         return view('task.index', compact('tasks'));
     }
 
@@ -31,7 +32,7 @@ class TaskController extends Controller
             $statuses = $statusesAll->pluck('name', 'id');
             $usersAll = \App\User::get();
             $users = $usersAll->pluck('name', 'id');
-            $users['null'] = '';
+            $users['empty'] = '';
             return view('task.create', compact('task', 'statuses', 'users'));
         }
 
@@ -72,7 +73,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        return view('task.show', compact('task'));
     }
 
     /**
@@ -83,7 +84,16 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        //
+        if (Auth::check()) {
+            $statusesAll = \App\TaskStatus::get();
+            $statuses = $statusesAll->pluck('name', 'id');
+            $usersAll = \App\User::get();
+            $users = $usersAll->pluck('name', 'id');
+            $users['empty'] = '';
+            return view('task.edit', compact('task', 'users', 'statuses'));
+        }
+        flash('failed delete')->error();
+        return redirect()->route('tasks.index');
     }
 
     /**
@@ -95,8 +105,16 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        //
+        if (Auth::check()) {
+            $data = $this->validate($request, ['name' => 'required']);
+            $task->fill($data);
+            $task->save();
+            flash('success edit')->success();
+            return redirect()->route('tasks.index');
+        }
+        return redirect()->route('tasks.index');
     }
+    
 
     /**
      * Remove the specified resource from storage.
@@ -104,8 +122,18 @@ class TaskController extends Controller
      * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function destroy($id)
     {
-        //
+        $task = Task::find($id);
+        if (Auth::check() && Auth::user()->id === $task->creator->id) {
+            if ($task) {
+                $task->delete();
+            }
+            flash('success delete')->success();
+            return redirect()
+                ->route('tasks.index');
+        }
+        flash('failed delete')->error();
+        return redirect()->route('tasks.index');
     }
 }
