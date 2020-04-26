@@ -3,7 +3,6 @@
 @section('content')
 <div class="container">
 @include('flash::message')
-
 {{Form::model($taskStatus, ['url' => route('task_statuses.update', $taskStatus), 'method' => 'PATCH'])}}
     {{ Form::label('name', 'Имя') }}
     {{ Form::text('name') }}
