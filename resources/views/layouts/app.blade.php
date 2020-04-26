@@ -40,6 +40,9 @@
                         <li class="nav-item">
                                 <a class="nav-link" href="{{route('task_statuses.index')}}">{{ __('Task Statuses') }}</a>
                         <li>
+                        <li class="nav-item">
+                                <a class="nav-link" href="{{route('labels.index')}}">{{ __('Labels') }}</a>
+                        <li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

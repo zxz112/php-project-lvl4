@@ -36,7 +36,7 @@ class TaskController extends Controller
             return view('task.create', compact('task', 'statuses', 'users'));
         }
 
-        return redirect()->route('task.index');
+        return redirect()->route('tasks.index');
     }
 
     /**

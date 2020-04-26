@@ -20,6 +20,7 @@ class CreateTasksTable extends Migration
             $table->bigInteger('task_status_id');
             $table->foreign('task_status_id')->references('id')->on('task_statuses');
             $table->bigInteger('created_by_id');
+            $table->bigInteger('label_id')->nullable();
             $table->bigInteger('assigned_to_id')->nullable();
             $table->timestamps();
         });
