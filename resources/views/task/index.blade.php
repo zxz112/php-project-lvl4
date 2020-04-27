@@ -29,7 +29,13 @@
                 @foreach($tasks as $task)
                     <tr>
                         <td>{{$task->id}}</td>
-                        <td>{{$task->status->name}}</td>
+                        <td>{{$task->status->name}}
+                        @foreach ($task->labels as $label)
+                        <span class="btn btn-warning btn-bg">
+                        {{$label->name}}
+                        </span>
+                        @endforeach
+                        </td>
                         <td><a href="{{route('tasks.show', $task)}}">{{$task->name}}</a></td>
                         <td>{{$task->creator->name}}</td>
                         <td>{{$task->assigner->name ?? ''}}</td>

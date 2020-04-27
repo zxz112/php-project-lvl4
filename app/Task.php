@@ -23,8 +23,10 @@ class Task extends Model
         return $this->belongsTo('App\User', 'assigned_to_id');
     }
 
-    public function label()
+    public function labels()
     {
-        return $this->belongsTo('App\Label', 'label_id');
+        return $this->belongsToMany('App\Label');
     }
+
+
 }

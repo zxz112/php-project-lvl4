@@ -30,10 +30,12 @@ class TaskController extends Controller
             $task = new Task();
             $statusesAll = \App\TaskStatus::get();
             $statuses = $statusesAll->pluck('name', 'id');
+            $labels = \App\Label::get();
+            $labels = $labels->pluck('name', 'id');
             $usersAll = \App\User::get();
             $users = $usersAll->pluck('name', 'id');
             $users['empty'] = '';
-            return view('task.create', compact('task', 'statuses', 'users'));
+            return view('task.create', compact('task', 'statuses', 'users', 'labels'));
         }
 
         return redirect()->route('tasks.index');
@@ -52,13 +54,22 @@ class TaskController extends Controller
                 'name' => 'required',
                 'description' => '',
                 'task_status_id' => '',
-                'assigned_to_id' => ''
-
+                'assigned_to_id' => '',
             ]);
-            $data['created_by_id'] = \Auth::user()->id;
+            $creator = \Auth::user();
+            $labels = $request['labels'];
+            $data['created_by_id'] = $creator->id;
             $task = new \App\Task();
             $task->fill($data);
             $task->save();
+            if($labels) {
+                foreach ($labels as $label) {
+                    $taskLabel = new \App\LabelTask();
+                    $taskLabel->task_id = $task->id;
+                    $taskLabel->label_id = $label;
+                    $taskLabel->save();
+                }  
+            }
             flash('task has been added')->success();
                 return redirect()
                     ->route('tasks.index');

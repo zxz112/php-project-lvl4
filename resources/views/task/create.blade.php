@@ -13,7 +13,7 @@
     </div>
 @endif
 
-{{Form::model($task, ['url' => route('tasks.store')])}}
+{{Form::open(['url' => route('tasks.store')])}}
 <div class="form-group col-md-4"> 
     {{ Form::label('name', 'Name') }}
     {{ Form::text('name', '', ['class' => 'form-control']) }}
@@ -29,6 +29,10 @@
 <div class="form-group col-md-4"> 
     {{ Form::label('assigned_to_id', 'Assigned') }}
     {{ Form::select('assigned_to_id', $users, 'empty', ['class' => 'form-control'])}}
+</div>
+<div class="form-group col-md-4"> 
+    {{ Form::label('labels', 'Label') }}
+    {{ Form::select('labels[]', $labels, 'empty', ['class' => 'form-control', 'multiple'=>true])}}
 </div>
     {{Form::submit('Add new!', ['class' => 'btn btn-warning btn-bg'])}}
     
