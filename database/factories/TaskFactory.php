@@ -5,7 +5,7 @@
 use App\Task;
 use Faker\Generator as Faker;
 
-    $factory->define(Task::class, function (Faker $faker) {
+$factory->define(Task::class, function (Faker $faker) {
     $newId = \App\TaskStatus::where('name', 'new')->first()->id;
     return [
         'name' => $faker->name,

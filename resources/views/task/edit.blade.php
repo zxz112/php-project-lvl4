@@ -32,13 +32,8 @@
 </div>
 
 <div class="form-group col-md-4"> 
-    {{ Form::label('Assigned', 'Assigned') }}
-    {{ Form::select('assigned_to_id', $users, $task->creator->id ?? '', ['class' => 'form-control'])}}
-</div>
-
-<div class="form-group col-md-4"> 
     {{ Form::label('labels', 'Label') }}
-    {{ Form::select('labels[]', $labels, 'empty', ['class' => 'form-control', 'multiple'=>true])}}
+    {{ Form::select('labels[]', $labels, $task->labels->pluck('id'), ['class' => 'form-control', 'multiple'=>true])}}
 </div>
 
     {{Form::submit('Add new!', ['class' => 'btn btn-warning btn-bg'])}}
