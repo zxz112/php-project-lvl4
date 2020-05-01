@@ -11,11 +11,9 @@ class TaskStatusSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('task_statuses')->insert([
-            ['name' => 'new'],
-            ['name' => 'in progress'],
-            ['name' => 'test'],
-            ['name' => 'complete']
-        ]);
+        factory(App\TaskStatus::class)->create(['name' => 'new']);
+        factory(App\TaskStatus::class)->create(['name' => 'in progress']);
+        factory(App\TaskStatus::class)->create(['name' => 'test']);
+        factory(App\TaskStatus::class)->create(['name' => 'complete']);
     }
 }

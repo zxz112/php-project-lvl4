@@ -22,4 +22,3 @@ $factory->define(TaskStatus::class, function (Faker $faker) {
         'name' => $faker->name,
     ];
 });
-DB::table('task_statuses')->insert(['name' => 'new']);
