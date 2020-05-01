@@ -36,7 +36,7 @@
                     <th scope="col">@lang('task.asignee')</th>
                     <th scope="col">@lang('task.create')</th>
                     @if (\Auth::check())
-                    <th scope="col">@lang('task.actions')</th>
+                    <th scope="col">@lang('action.actions')</th>
                     @endif
                 </tr>
             </thead>
@@ -58,9 +58,9 @@
                         @if (\Auth::check())
                         <td>
                         @if (\Auth::user()->id === $task->creator->id)
-                        <a href="{{route('tasks.destroy', $task->id)}}" data-confirm="Вы уверены?" data-method="delete" rel="nofollow">@lang('status.delete')
+                        <a href="{{route('tasks.destroy', $task)}}" data-confirm="Вы уверены?" data-method="delete" rel="nofollow">@lang('action.delete')
                         @endif
-                        <a href="{{route('tasks.edit', $task->id)}}">@lang('status.edit')</td>
+                        <a href="{{route('tasks.edit', $task)}}">@lang('action.edit')</td>
                         @endif
                     </tr>
                 @endforeach

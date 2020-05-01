@@ -14,11 +14,11 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">@lang('status.id')</th>
-                    <th scope="col">@lang('status.name')</th>
-                    <th scope="col">@lang('status.create')</th>
+                    <th scope="col">@lang('label.id')</th>
+                    <th scope="col">@lang('label.name')</th>
+                    <th scope="col">@lang('label.create')</th>
                     @if (\Auth::check())
-                    <th scope="col">@lang('status.actions')</th>
+                    <th scope="col">@lang('action.actions')</th>
                     @endif
                 </tr>
             </thead>
@@ -29,8 +29,8 @@
                         <td>{{$label->name}}</td>
                         <td>{{$label->created_at}}</td>
                         @if (\Auth::check())
-                        <td><a href="{{route('labels.destroy', $label)}}" data-confirm="Вы уверены?" data-method="delete" rel="nofollow">@lang('status.delete')
-                        <a href="{{route('labels.edit', $label)}}">@lang('status.edit')</td>
+                        <td><a href="{{route('labels.destroy', $label)}}" data-confirm="Вы уверены?" data-method="delete" rel="nofollow">@lang('action.delete')
+                        <a href="{{route('labels.edit', $label)}}">@lang('action.edit')</td>
                         </td>   
                         @endif
                     </tr>

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\TaskStatus;
+use Illuminate\Http\Request;
 use Auth;
 
 class TaskStatusController extends Controller
@@ -58,14 +58,13 @@ class TaskStatusController extends Controller
             ->route('task_statuses.index');
     }
 
-
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\TaskStatus  $taskStatus
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(TaskStatus $taskStatus)
     {
         //
     }
@@ -73,13 +72,12 @@ class TaskStatusController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\TaskStatus  $taskStatus
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(TaskStatus $taskStatus)
     {
         if (Auth::check()) {
-            $taskStatus = TaskStatus::find($id);
             return view('task_status.edit', compact('taskStatus'));
         }
         flash('failed edit')->error();
@@ -90,13 +88,12 @@ class TaskStatusController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\TaskStatus  $taskStatus
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, TaskStatus $taskStatus)
     {
         if (Auth::check()) {
-            $taskStatus = TaskStatus::find($id);
             $data = $this->validate($request, ['name' => 'required|unique:task_statuses']);
             $taskStatus->fill($data);
             $taskStatus->save();
@@ -109,15 +106,14 @@ class TaskStatusController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\TaskStatus  $taskStatus
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(TaskStatus $taskStatus)
     {
         if (Auth::check()) {
-            $status = TaskStatus::find($id);
-            if ($status) {
-                $status->delete();
+            if ($taskStatus) {
+                $taskStatus->delete();
                 flash('success delete')->success();
                 return redirect()
                     ->route('task_statuses.index');

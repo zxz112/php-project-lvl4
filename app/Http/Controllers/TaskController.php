@@ -16,6 +16,7 @@ class TaskController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         $statusesAll = \App\TaskStatus::get();
         $statuses = $statusesAll->pluck('name', 'id');
         $users = \App\User::get();
@@ -24,6 +25,13 @@ class TaskController extends Controller
             ->allowedFilters(['task_status_id', 'created_by_id', 'assigned_to_id'])
             ->paginate();
         return view('task.index', compact('tasks', 'statuses', 'users'));
+=======
+        $tasks = Task::paginate();
+        // $task = QueryBuilder::for(Task::class)
+        //     ->allowedFields(['status_id', 'creator', 'assigned_id'])
+        //     ->get();
+        return view('task.index', compact('tasks'));
+>>>>>>> a2c0c62743e8edb12f4b0c0b91de32d778951dfa
     }
 
     /**
@@ -69,13 +77,13 @@ class TaskController extends Controller
             $task = new \App\Task();
             $task->fill($data);
             $task->save();
-            if($labels) {
+            if ($labels) {
                 foreach ($labels as $label) {
                     $taskLabel = new \App\LabelTask();
                     $taskLabel->task_id = $task->id;
                     $taskLabel->label_id = $label;
                     $taskLabel->save();
-                }  
+                }
             }
             flash('task has been added')->success();
                 return redirect()
@@ -108,7 +116,10 @@ class TaskController extends Controller
             $usersAll = \App\User::get();
             $users = $usersAll->pluck('name', 'id');
             $users['empty'] = '';
-            return view('task.edit', compact('task', 'users', 'statuses'));
+            $res = $task->labels->toArray();
+            $labels = \App\Label::get();
+            $labels = $labels->pluck('name', 'id');
+            return view('task.edit', compact('task', 'users', 'statuses', 'labels'));
         }
         flash('failed delete')->error();
         return redirect()->route('tasks.index');
@@ -124,9 +135,17 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
         if (Auth::check()) {
-            $data = $this->validate($request, ['name' => 'required']);
+            $data = $this->validate($request, [
+                'name' => 'required',
+                'description' => '',
+                'task_status_id' => '',
+                'assigned_to_id' => '',
+            ]);
+            $labels = $request['labels'];
             $task->fill($data);
             $task->save();
+            $task->labels()->sync($labels);
+
             flash('success edit')->success();
             return redirect()->route('tasks.index');
         }
@@ -140,9 +159,8 @@ class TaskController extends Controller
      * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Task $task)
     {
-        $task = Task::find($id);
         if (Auth::check() && Auth::user()->id === $task->creator->id) {
             if ($task) {
                 $task->delete();

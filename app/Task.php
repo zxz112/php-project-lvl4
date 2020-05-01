@@ -27,6 +27,4 @@ class Task extends Model
     {
         return $this->belongsToMany('App\Label');
     }
-
-
 }

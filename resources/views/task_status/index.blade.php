@@ -29,8 +29,8 @@
                         <td>{{$status->name}}</td>
                         <td>{{$status->created_at}}</td>
                         @if (\Auth::check())
-                        <td><a href="{{route('task_statuses.destroy', $status->id)}}" data-confirm="Вы уверены?" data-method="delete" rel="nofollow">@lang('status.delete')
-                        <a href="{{route('task_statuses.edit', $status->id)}}">@lang('status.edit')</td>
+                        <td><a href="{{route('task_statuses.destroy', $status)}}" data-confirm="Вы уверены?" data-method="delete" rel="nofollow">@lang('action.delete')
+                        <a href="{{route('task_statuses.edit', $status)}}">@lang('action.edit')</td>
                         </td>   
                         @endif
                     </tr>
