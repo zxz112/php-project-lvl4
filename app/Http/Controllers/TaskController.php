@@ -17,9 +17,9 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::paginate();
-        $task = QueryBuilder::for(Task::class)
-            ->allowedFields(['status_id', 'creator', 'assigned_id'])
-            ->get();
+        // $task = QueryBuilder::for(Task::class)
+        //     ->allowedFields(['status_id', 'creator', 'assigned_id'])
+        //     ->get();
         return view('task.index', compact('tasks'));
     }
 
