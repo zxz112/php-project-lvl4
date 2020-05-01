@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Task;
 use Illuminate\Http\Request;
 use Auth;
-use Spatie\QueryBuilder;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
@@ -16,11 +16,14 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::paginate();
-        $task = QueryBuilder::for(Task::class)
-            ->allowedFields(['status_id', 'creator', 'assigned_id'])
-            ->get();
-        return view('task.index', compact('tasks'));
+        $statusesAll = \App\TaskStatus::get();
+        $statuses = $statusesAll->pluck('name', 'id');
+        $users = \App\User::get();
+        $users = $users->pluck('name', 'id');
+        $tasks = QueryBuilder::for(Task::class)
+            ->allowedFilters(['task_status_id', 'created_by_id', 'assigned_to_id'])
+            ->paginate();
+        return view('task.index', compact('tasks', 'statuses', 'users'));
     }
 
     /**

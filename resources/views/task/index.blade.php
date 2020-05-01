@@ -10,6 +10,21 @@
 @endif
     <a href="{{ route('tasks.create') }}"></a>
 
+<div class="form-group col-md-4">
+    {{Form::open(['url' => route('tasks.index'), 'method'=>'GET'])}}
+    {{ Form::label('task_status_id', 'Assigned') }}
+    {{ Form::select('filter[task_status_id]', $statuses, 'empty', ['class' => 'form-control'])}}
+
+    {{ Form::label('creator', 'Assigned') }}
+    {{ Form::select('filter[created_by_id]', $users, 'empty', ['class' => 'form-control'])}}
+
+    {{ Form::label('assigned', 'Assigned') }}
+    {{ Form::select('filter[assigned_to_id]', $users, 'empty', ['class' => 'form-control'])}}
+    {{Form::submit('Search!', ['class' => 'btn btn-warning btn-bg'])}}
+    {{Form::close()}}
+
+</div>
+
     <div>
         <table class="table table-striped">
             <thead>
