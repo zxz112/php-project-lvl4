@@ -57,45 +57,49 @@ class TaskTest extends TestCase
         $response->assertOk();
     }
 
-    // public function testEditAuth()
-    // {
-    //     $user = factory(\App\User::class)->create();
-    //     $task = factory(\App\Task::class)->create();
-    //     $response = $this->actingAs($user)->get(route('tasks.edit', $task));
-    //     $response->assertOk();
-    // }
+    public function testEditAuth()
+    {
+        $user = factory(\App\User::class)->create();
+        $status = factory(\App\TaskStatus::class)->create();
+        $task = factory(\App\Task::class)->create();
+        $response = $this->actingAs($user)->get(route('tasks.edit', $task));
+        $response->assertOk();
+    }
 
-    // public function testStore()
-    // {
-    //     $user = factory(\App\User::class)->create();
-    //     $factoryData = factory(\App\Task::class)->make()->toArray();
-    //     $response = $this->actingAs($user)->post(route('tasks.store'), $factoryData);
-    //     $response->assertSessionHasNoErrors();
-    //     $response->assertRedirect();
+    public function testStore()
+    {
+        $user = factory(\App\User::class)->create();
+        $factoryData = factory(\App\Task::class)->make()->toArray();
+        $data = \Arr::only($factoryData, ['name', 'description']);
+        $response = $this->actingAs($user)->post(route('tasks.store'), $factoryData);
+        $response->assertSessionHasNoErrors();
+        $response->assertRedirect();
 
-    //     $this->assertDatabaseHas('tasks', $factoryData);
-    // }
+        $this->assertDatabaseHas('tasks', $data);
+    }
 
-    // public function testUpdate()
-    // {
-    //     $user = factory(\App\User::class)->create();
-    //     $task = factory(\App\Task::class)->create();
-    //     $factoryData = factory(\App\Task::class)->make()->toArray();
-    //     $response = $this->actingAs($user)->patch(route('task_statuses.update', $task), $factoryData);
-    //     $response->assertSessionHasNoErrors();
-    //     $response->assertRedirect();
+    public function testUpdate()
+    {
+        $user = factory(\App\User::class)->create();
+        $task = factory(\App\Task::class)->create();
+        $factoryData = factory(\App\Task::class)->make()->toArray();
+        $data = \Arr::only($factoryData, ['name', 'description']);
+        $response = $this->actingAs($user)->patch(route('tasks.update', $task), $factoryData);
+        $response->assertSessionHasNoErrors();
+        $response->assertRedirect();
 
-    //     $this->assertDatabaseHas('task_statuses', $factoryData);
-    // }
+        $this->assertDatabaseHas('tasks', $data);
+    }
 
-    // public function testDestroy()
-    // {
-    //     $user = factory(\App\User::class)->create();
-    //     $task = factory(\App\Task::class)->create();
-    //     $response = $this->actingAs($user)->delete(route('task_statuses.destroy', $task));
-    //     $response->assertSessionHasNoErrors();
-    //     $response->assertRedirect();
+    public function testDestroy()
+    {
+        $user = factory(\App\User::class)->create();
+        $task = factory(\App\Task::class)->create();
+        $res = $task->creator;
+        $response = $this->actingAs($user)->delete(route('tasks.destroy', $task));
+        $response->assertSessionHasNoErrors();
+        $response->assertRedirect();
 
-    //     $this->assertDatabaseMissing('task_statuses', ['id' => $task->id]);
-    // }
+        $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
+    }
 }
