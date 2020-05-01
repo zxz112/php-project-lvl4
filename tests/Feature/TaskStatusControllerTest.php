@@ -34,8 +34,8 @@ class TaskStatusControllerTest extends TestCase
 
     public function testEdit()
     {
-        $article = factory(\App\TaskStatus::class)->create();
-        $response = $this->get(route('task_statuses.edit', $article->id));
+        $status = factory(\App\TaskStatus::class)->create();
+        $response = $this->get(route('task_statuses.edit', $status));
         $response->assertRedirect();
     }
 
@@ -50,7 +50,7 @@ class TaskStatusControllerTest extends TestCase
     {
         $user = factory(\App\User::class)->create();
         $status = factory(\App\TaskStatus::class)->create();
-        $response = $this->actingAs($user)->get(route('task_statuses.edit', [$status->id]));
+        $response = $this->actingAs($user)->get(route('task_statuses.edit', $status));
         $response->assertOk();
     }
 
@@ -72,7 +72,7 @@ class TaskStatusControllerTest extends TestCase
         $status = factory(\App\TaskStatus::class)->create();
         $factoryData = factory(\App\TaskStatus::class)->make()->toArray();
         $data = \Arr::only($factoryData, ['name']);
-        $response = $this->actingAs($user)->patch(route('task_statuses.update', $status->id), $data);
+        $response = $this->actingAs($user)->patch(route('task_statuses.update', $status), $data);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
 
@@ -83,7 +83,7 @@ class TaskStatusControllerTest extends TestCase
     {
         $user = factory(\App\User::class)->create();
         $status = factory(\App\TaskStatus::class)->create();
-        $response = $this->actingAs($user)->delete(route('task_statuses.destroy', $status->id));
+        $response = $this->actingAs($user)->delete(route('task_statuses.destroy', $status));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
 

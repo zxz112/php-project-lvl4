@@ -19,7 +19,7 @@ class TaskTest extends TestCase
     {
         parent::setup();
         factory(\App\User::class)->make();
-        factory(\App\TaskStatus::class, 2)->make();
+        factory(\App\TaskStatus::class)->create(['name' => 'new']);
         factory(\App\Task::class, 2)->make();
     }
 
