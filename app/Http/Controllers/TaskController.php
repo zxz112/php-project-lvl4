@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Task;
 use Illuminate\Http\Request;
 use Auth;
+use Spatie\QueryBuilder;
 
 class TaskController extends Controller
 {
@@ -16,6 +17,9 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::paginate();
+        $task = QueryBuilder::for(Task::class)
+            ->allowedFields(['status_id', 'creator', 'assigned_id'])
+            ->get();
         return view('task.index', compact('tasks'));
     }
 
