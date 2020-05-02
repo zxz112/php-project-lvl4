@@ -14,7 +14,7 @@
     <div class="col-2">
     {{Form::open(['url' => route('tasks.index'), 'method'=>'GET'])}}
         {{ Form::label('task_status_id', 'Status') }}
-        {{ Form::select('filter[status.id]', $statuses, $_GET['filter']['task_status_id'] ?? '', ['class' => 'form-control'])}}
+        {{ Form::select('filter[status.id]', $statuses, $_GET['filter']['status.id'] ?? '', ['class' => 'form-control'])}}
     </div>
     <div class="col-2">
         {{ Form::label('creator', 'Creator') }}
@@ -22,7 +22,7 @@
     </div>
     <div class="col-2">
         {{ Form::label('assigned', 'Assigned') }}
-        {{ Form::select('filter[assigner.id]', $users, $_GET['filter']['assigned_to_id'] ?? '', ['class' => 'form-control'])}}
+        {{ Form::select('filter[assigner.id]', $users, $_GET['filter']['assigner.id'] ?? '', ['class' => 'form-control'])}}
     </div>
     <div class="col-2">
         {{ Form::label('label', 'Label') }}
