@@ -8,7 +8,31 @@
     {{Form::submit('Add new!', ['class' => 'btn btn-warning btn-bg'])}}
 {{Form::close()}}
 @endif
-    <a href="{{ route('tasks.create') }}"></a>
+
+{{Form::open(['url' => route('tasks.index'), 'method'=>'GET'])}}
+<div class="form-row">
+    <div class="col-2">
+    {{Form::open(['url' => route('tasks.index'), 'method'=>'GET'])}}
+        {{ Form::label('task_status_id', 'Status') }}
+        {{ Form::select('filter[task_status_id]', $statuses, $_GET['filter']['task_status_id'] ?? '', ['class' => 'form-control'])}}
+    </div>
+    <div class="col-2">
+        {{ Form::label('creator', 'Creator') }}
+        {{ Form::select('filter[created_by_id]', $users, $_GET['filter']['created_by_id'] ?? '', ['class' => 'form-control'])}}
+    </div>
+    <div class="col-2">
+        {{ Form::label('assigned', 'Assigned') }}
+        {{ Form::select('filter[assigned_to_id]', $users, $_GET['filter']['assigned_to_id'] ?? '', ['class' => 'form-control'])}}
+    </div>
+    <div class="col-2">
+        {{ Form::label('label', 'Label') }}
+        {{ Form::select('filter[labels.id]', $labels, $_GET['filter']['labels.id'] ?? '', ['class' => 'form-control'])}}
+    </div>
+    <div class="col-auto">
+    {{Form::submit('Search!', ['class' => 'btn btn-outline-primary'])}}
+    {{Form::close()}}
+    </div>
+</div>
 
     <div>
         <table class="table table-striped">

@@ -16,11 +16,13 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasksAll = Task::get();
-        // $tasks = QueryBuilder::for(Task::class)
-        //     ->allowedFilters(['task_status_id', 'created_by_id', 'assigned_to_id'])
-        //     ->paginate();
-        return view('task.index', compact('tasks'));
+        $statuses = \App\TaskStatus::get()->pluck('name', 'id')->prepend('Status', '');
+        $users = \App\User::get()->pluck('name', 'id')->prepend('User', '');
+        $labels = \App\Label::get()->pluck('name', 'id')->prepend('Label', '');
+        $tasks = QueryBuilder::for(Task::class)
+            ->allowedFilters(['task_status_id', 'created_by_id', 'assigned_to_id', 'labels.id'])
+            ->paginate();
+        return view('task.index', compact('tasks', 'statuses', 'users', 'labels'));
     }
 
     /**
@@ -37,8 +39,7 @@ class TaskController extends Controller
             $labels = \App\Label::get();
             $labels = $labels->pluck('name', 'id');
             $usersAll = \App\User::get();
-            $users = $usersAll->pluck('name', 'id');
-            $users['empty'] = '';
+            $users = $usersAll->pluck('name', 'id')->prepend('', '');
             return view('task.create', compact('task', 'statuses', 'users', 'labels'));
         }
 

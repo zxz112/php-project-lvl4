@@ -28,11 +28,11 @@
 </div>
 <div class="form-group col-md-4"> 
     {{ Form::label('assigned_to_id', 'Assigned') }}
-    {{ Form::select('assigned_to_id', $users, 'empty', ['class' => 'form-control'])}}
+    {{ Form::select('assigned_to_id', $users, '', ['class' => 'form-control'])}}
 </div>
 <div class="form-group col-md-4"> 
     {{ Form::label('labels', 'Label') }}
-    {{ Form::select('labels[]', $labels, 'empty', ['class' => 'form-control', 'multiple'=>true])}}
+    {{ Form::select('labels[]', $labels, '', ['class' => 'form-control', 'multiple'=>true])}}
 </div>
     {{Form::submit('Add new!', ['class' => 'btn btn-warning btn-bg'])}}
     
