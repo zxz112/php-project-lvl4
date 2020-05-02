@@ -16,6 +16,7 @@ class TaskController extends Controller
      */
     public function index()
     {
+        \Log::debug('Test debug message');
         $statuses = \App\TaskStatus::get()->pluck('name', 'id')->prepend('Status', '');
         $users = \App\User::get()->pluck('name', 'id')->prepend('User', '');
         $labels = \App\Label::get()->pluck('name', 'id')->prepend('Label', '');
