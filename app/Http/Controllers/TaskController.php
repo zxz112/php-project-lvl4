@@ -6,6 +6,7 @@ use App\Task;
 use Illuminate\Http\Request;
 use Auth;
 use Spatie\QueryBuilder\QueryBuilder;
+use Rollbar\Rollbar;
 
 class TaskController extends Controller
 {
@@ -16,6 +17,9 @@ class TaskController extends Controller
      */
     public function index()
     {
+        Rollbar::init(array(
+            'environment' => 'production'
+        ));
         \Log::debug('Test debug message');
         $statuses = \App\TaskStatus::get()->pluck('name', 'id')->prepend('Status', '');
         $users = \App\User::get()->pluck('name', 'id')->prepend('User', '');
