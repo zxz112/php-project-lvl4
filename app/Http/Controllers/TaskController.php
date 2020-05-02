@@ -6,7 +6,7 @@ use App\Task;
 use Illuminate\Http\Request;
 use Auth;
 use Spatie\QueryBuilder\QueryBuilder;
-use Rollbar\Rollbar;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class TaskController extends Controller
 {
@@ -17,16 +17,21 @@ class TaskController extends Controller
      */
     public function index()
     {
-        Rollbar::init(array(
-            'environment' => 'production'
-        ));
         \Log::debug('Test debug message');
         $statuses = \App\TaskStatus::get()->pluck('name', 'id')->prepend('Status', '');
         $users = \App\User::get()->pluck('name', 'id')->prepend('User', '');
         $labels = \App\Label::get()->pluck('name', 'id')->prepend('Label', '');
         $tasks = QueryBuilder::for(Task::class)
-            ->allowedFilters(['task_status_id', 'created_by_id', 'assigned_to_id', 'labels.id'])
-            ->paginate();
+            ->latest()
+            ->with('creator', 'assigner', 'status', 'labels')
+            ->allowedFilters([
+                AllowedFilter::exact('creator.id'),
+                AllowedFilter::exact('status.id'),
+                AllowedFilter::exact('assigner.id'),
+                AllowedFilter::exact('labels.id')
+            ])
+            ->paginate(10)
+            ->appends(request()->query());
         return view('task.index', compact('tasks', 'statuses', 'users', 'labels'));
     }
 
