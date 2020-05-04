@@ -29,7 +29,7 @@
         {{ Form::select('filter[labels.id]', $labels, $_GET['filter']['labels.id'] ?? '', ['class' => 'form-control'])}}
     </div>
     <div class="col-auto">
-    {{Form::submit('Search!', ['class' => 'btn btn-outline-primary'])}}
+    {{Form::submit('Search!', ['class' => 'btn btn-outline-primary', 'style' => 'position: absolute; bottom: 0px'])}}
     {{Form::close()}}
     </div>
 </div>
