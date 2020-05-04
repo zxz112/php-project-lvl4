@@ -96,14 +96,9 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         if (Auth::check()) {
-            $statusesAll = \App\TaskStatus::get();
-            $statuses = $statusesAll->pluck('name', 'id');
-            $usersAll = \App\User::get();
-            $users = $usersAll->pluck('name', 'id');
-            $users[''] = '';
-            $res = $task->labels->toArray();
-            $labels = \App\Label::get();
-            $labels = $labels->pluck('name', 'id');
+            $statuses = \App\TaskStatus::get()->pluck('name', 'id');
+            $users = \App\User::get()->pluck('name', 'id')->prepend('Assignee', '');
+            $labels = \App\Label::get()->pluck('name', 'id');
             return view('task.edit', compact('task', 'users', 'statuses', 'labels'));
         }
         flash('failed delete')->error();
