@@ -39,12 +39,9 @@ class TaskController extends Controller
     {
         if (\Auth::check()) {
             $task = new Task();
-            $statusesAll = \App\TaskStatus::get();
-            $statuses = $statusesAll->pluck('name', 'id');
-            $labels = \App\Label::get();
-            $labels = $labels->pluck('name', 'id');
-            $usersAll = \App\User::get();
-            $users = $usersAll->pluck('name', 'id')->prepend('', '');
+            $statuses = \App\TaskStatus::get()->pluck('name', 'id');
+            $labels = \App\Label::get()->pluck('name', 'id');
+            $users = \App\User::get()->pluck('name', 'id')->prepend('Assignee', '');
             return view('task.create', compact('task', 'statuses', 'users', 'labels'));
         }
 

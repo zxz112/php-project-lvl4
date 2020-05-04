@@ -28,7 +28,7 @@
 </div>
 <div class="form-group col-md-4"> 
     {{ Form::label('Assigned', 'Assigned') }}
-    {{ Form::select('assigned_to_id', $users, $task->assigned_to_id ?? 'empty', ['class' => 'form-control'])}}
+    {{ Form::select('assigned_to_id', $users, $task->assigned_to_id ?? '', ['class' => 'form-control'])}}
 </div>
 
 <div class="form-group col-md-4"> 
