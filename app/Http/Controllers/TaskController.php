@@ -100,7 +100,7 @@ class TaskController extends Controller
             $statuses = $statusesAll->pluck('name', 'id');
             $usersAll = \App\User::get();
             $users = $usersAll->pluck('name', 'id');
-            $users['empty'] = null;
+            $users[''] = '';
             $res = $task->labels->toArray();
             $labels = \App\Label::get();
             $labels = $labels->pluck('name', 'id');
