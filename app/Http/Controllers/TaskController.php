@@ -72,14 +72,7 @@ class TaskController extends Controller
             $task = new \App\Task();
             $task->fill($data);
             $task->save();
-            if ($labels) {
-                foreach ($labels as $label) {
-                    $taskLabel = new \App\LabelTask();
-                    $taskLabel->task_id = $task->id;
-                    $taskLabel->label_id = $label;
-                    $taskLabel->save();
-                }
-            }
+            $task->labels()->sync($labels);
             flash('task has been added')->success();
                 return redirect()
                     ->route('tasks.index');
