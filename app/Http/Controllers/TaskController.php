@@ -67,7 +67,7 @@ class TaskController extends Controller
         $task->fill($data);
         $task->save();
         $task->labels()->sync($labels);
-        flash('task has been added')->success();
+        flash(__('task has been added'))->success();
         return redirect()->route('tasks.index');
     }
 
@@ -118,7 +118,7 @@ class TaskController extends Controller
         $task->save();
         $task->labels()->sync($labels);
 
-        flash('success edit')->success();
+        flash(__('success edit'))->success();
         return redirect()->route('tasks.index');
     }
 
@@ -133,7 +133,7 @@ class TaskController extends Controller
     {
         $this->authorize('delete', $task);
         $task->delete();
-        flash('success delete')->success();
+        flash(__('success delete'))->success();
         return redirect()
             ->route('tasks.index');
     }

@@ -46,7 +46,7 @@ class TaskStatusController extends Controller
         $taskStatus = new TaskStatus();
         $taskStatus->fill($data);
         $taskStatus->save();
-        flash('status has been added')->success();
+        flash(__('status has been added'))->success();
         return redirect()
             ->route('task_statuses.index');
     }
@@ -86,7 +86,7 @@ class TaskStatusController extends Controller
         $data = $this->validate($request, ['name' => 'required|unique:task_statuses']);
         $taskStatus->fill($data);
         $taskStatus->save();
-        flash('success edit')->success();
+        flash(__('success edit'))->success();
         return redirect()->route('task_statuses.index');
     }
 
@@ -101,7 +101,7 @@ class TaskStatusController extends Controller
         $this->authorize('delete', TaskStatus::class);
 
         $taskStatus->delete();
-        flash('success delete')->success();
+        flash(__('success delete'))->success();
         return redirect()->route('task_statuses.index');
     }
 }

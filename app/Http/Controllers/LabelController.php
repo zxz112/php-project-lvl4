@@ -44,7 +44,7 @@ class LabelController extends Controller
         $label = new Label();
         $label->fill($data);
         $label->save();
-        flash('label has been added')->success();
+        flash(__('label has been added'))->success();
         return redirect()
             ->route('labels.index');
     }
@@ -86,7 +86,7 @@ class LabelController extends Controller
         $data = $this->validate($request, ['name' => 'required|unique:labels']);
         $label->fill($data);
         $label->save();
-        flash('success edit')->success();
+        flash(__('success edit'))->success();
         return redirect()->route('labels.index');
     }
 
@@ -100,7 +100,7 @@ class LabelController extends Controller
     {
         $this->authorize('delete', Label::class);
         $label->delete();
-        flash('success delete')->success();
+        flash(__('success delete'))->success();
         return redirect()->route('labels.index');
     }
 }
