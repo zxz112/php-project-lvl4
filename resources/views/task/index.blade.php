@@ -3,11 +3,13 @@
 @section('content')
 <div class="container">
 @include('flash::message')
-@if (\Auth::check())
+@auth
+
 {{Form::open(['url' => route('tasks.create'), 'method'=>'GET'])}}
     {{Form::submit('Add new!', ['class' => 'btn btn-warning btn-bg'])}}
 {{Form::close()}}
-@endif
+
+@endauth
 
 {{Form::open(['url' => route('tasks.index'), 'method'=>'GET'])}}
 <div class="form-row">
