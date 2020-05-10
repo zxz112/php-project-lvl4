@@ -38,6 +38,6 @@ class LabelPolicy
     }
     public function delete(User $user)
     {
-       return true;
+        return true;
     }
 }

@@ -47,7 +47,6 @@ class LabelController extends Controller
         flash('label has been added')->success();
         return redirect()
             ->route('labels.index');
-
     }
 
 
@@ -72,7 +71,6 @@ class LabelController extends Controller
     {
         $this->authorize('edit', Label::class);
         return view('label.edit', compact('label'));
-
     }
 
     /**

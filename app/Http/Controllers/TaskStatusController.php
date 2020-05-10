@@ -49,7 +49,6 @@ class TaskStatusController extends Controller
         flash('status has been added')->success();
         return redirect()
             ->route('task_statuses.index');
-
     }
 
     /**

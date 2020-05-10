@@ -75,7 +75,7 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task)
     {
-       return $user->id === $task->creator->id;
+        return $user->id === $task->creator->id;
     }
 
     /**
@@ -99,6 +99,6 @@ class TaskPolicy
      */
     public function forceDelete(User $user, Task $task)
     {
-         
+        //
     }
 }
