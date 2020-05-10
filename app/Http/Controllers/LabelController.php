@@ -26,13 +26,9 @@ class LabelController extends Controller
      */
     public function create()
     {
-        if (Auth::check()) {
-            $label = new Label();
-            return view('label.create', compact('label'));
-        }
-        flash('need auth')->error();
-        return redirect()
-            ->route('labels.index');
+        $this->authorize('create', Label::class);
+        $label = new Label();
+        return view('label.create', compact('label'));
     }
 
     /**
@@ -43,17 +39,15 @@ class LabelController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::check()) {
-            $data = $this->validate($request, ['name' => 'required|unique:labels']);
-            $label = new Label();
-            $label->fill($data);
-            $label->save();
-            flash('label has been added')->success();
-            return redirect()
-                ->route('labels.index');
-        }
+        $this->authorize('store', Label::class);
+        $data = $this->validate($request, ['name' => 'required|unique:labels']);
+        $label = new Label();
+        $label->fill($data);
+        $label->save();
+        flash('label has been added')->success();
         return redirect()
             ->route('labels.index');
+
     }
 
 
@@ -76,11 +70,9 @@ class LabelController extends Controller
      */
     public function edit(Label $label)
     {
-        if (Auth::check()) {
-            return view('label.edit', compact('label'));
-        }
-        flash('failed edit')->error();
-        return redirect()->route('labels.index');
+        $this->authorize('edit', Label::class);
+        return view('label.edit', compact('label'));
+
     }
 
     /**
@@ -92,13 +84,11 @@ class LabelController extends Controller
      */
     public function update(Request $request, Label $label)
     {
-        if (Auth::check()) {
-            $data = $this->validate($request, ['name' => 'required|unique:labels']);
-            $label->fill($data);
-            $label->save();
-            flash('success edit')->success();
-            return redirect()->route('labels.index');
-        }
+        $this->authorize('update', Label::class);
+        $data = $this->validate($request, ['name' => 'required|unique:labels']);
+        $label->fill($data);
+        $label->save();
+        flash('success edit')->success();
         return redirect()->route('labels.index');
     }
 
@@ -110,10 +100,9 @@ class LabelController extends Controller
      */
     public function destroy(Label $label)
     {
-        if (Auth::check()) {
-            $label->delete();
-            flash('succes delete')->success();
-        }
+        $this->authorize('delete', Label::class);
+        $label->delete();
+        flash('success delete')->success();
         return redirect()->route('labels.index');
     }
 }

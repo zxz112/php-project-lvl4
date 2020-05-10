@@ -37,15 +37,12 @@ class TaskController extends Controller
      */
     public function create()
     {
-        if (\Auth::check()) {
-            $task = new Task();
-            $statuses = \App\TaskStatus::get()->pluck('name', 'id');
-            $labels = \App\Label::get()->pluck('name', 'id');
-            $users = \App\User::get()->pluck('name', 'id')->prepend('Assignee', '');
-            return view('task.create', compact('task', 'statuses', 'users', 'labels'));
-        }
-
-        return redirect()->route('tasks.index');
+        $this->authorize('create', Task::class);
+        $task = new Task();
+        $statuses = \App\TaskStatus::get()->pluck('name', 'id');
+        $labels = \App\Label::get()->pluck('name', 'id');
+        $users = \App\User::get()->pluck('name', 'id')->prepend('Assignee', '');
+        return view('task.create', compact('task', 'statuses', 'users', 'labels'));
     }
 
     /**
@@ -56,24 +53,22 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        if (\Auth::check()) {
-            $data = $this->validate($request, [
-                'name' => 'required',
-                'description' => '',
-                'task_status_id' => '',
-                'assigned_to_id' => '',
-            ]);
-            $creator = \Auth::user();
-            $labels = $request['labels'];
-            $data['created_by_id'] = $creator->id;
-            $task = new \App\Task();
-            $task->fill($data);
-            $task->save();
-            $task->labels()->sync($labels);
-            flash('task has been added')->success();
-                return redirect()
-                    ->route('tasks.index');
-        }
+        $this->authorize('store', Task::class);
+        $data = $this->validate($request, [
+            'name' => 'required',
+            'description' => '',
+            'task_status_id' => '',
+            'assigned_to_id' => '',
+        ]);
+        $creator = \Auth::user();
+        $labels = $request['labels'];
+        $data['created_by_id'] = $creator->id;
+        $task = new \App\Task();
+        $task->fill($data);
+        $task->save();
+        $task->labels()->sync($labels);
+        flash('task has been added')->success();
+        return redirect()->route('tasks.index');
     }
 
     /**
@@ -95,14 +90,11 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        if (Auth::check()) {
-            $statuses = \App\TaskStatus::get()->pluck('name', 'id');
-            $users = \App\User::get()->pluck('name', 'id')->prepend('Assignee', '');
-            $labels = \App\Label::get()->pluck('name', 'id');
-            return view('task.edit', compact('task', 'users', 'statuses', 'labels'));
-        }
-        flash('failed delete')->error();
-        return redirect()->route('tasks.index');
+        $this->authorize('edit', Task::class);
+        $statuses = \App\TaskStatus::get()->pluck('name', 'id');
+        $users = \App\User::get()->pluck('name', 'id')->prepend('Assignee', '');
+        $labels = \App\Label::get()->pluck('name', 'id');
+        return view('task.edit', compact('task', 'users', 'statuses', 'labels'));
     }
 
     /**
@@ -114,24 +106,22 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        if (Auth::check()) {
-            $data = $this->validate($request, [
-                'name' => 'required',
-                'description' => '',
-                'task_status_id' => '',
-                'assigned_to_id' => '',
-            ]);
-            $labels = $request['labels'];
-            $task->fill($data);
-            $task->save();
-            $task->labels()->sync($labels);
+        $this->authorize('update', Task::class);
+        $data = $this->validate($request, [
+            'name' => 'required',
+            'description' => '',
+            'task_status_id' => '',
+            'assigned_to_id' => '',
+        ]);
+        $labels = $request['labels'];
+        $task->fill($data);
+        $task->save();
+        $task->labels()->sync($labels);
 
-            flash('success edit')->success();
-            return redirect()->route('tasks.index');
-        }
+        flash('success edit')->success();
         return redirect()->route('tasks.index');
     }
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -141,15 +131,10 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        if (Auth::check() && Auth::user()->id === $task->creator->id) {
-            if ($task) {
-                $task->delete();
-            }
-            flash('success delete')->success();
-            return redirect()
-                ->route('tasks.index');
-        }
-        flash('failed delete')->error();
-        return redirect()->route('tasks.index');
+        $this->authorize('delete', $task);
+        $task->delete();
+        flash('success delete')->success();
+        return redirect()
+            ->route('tasks.index');
     }
 }
