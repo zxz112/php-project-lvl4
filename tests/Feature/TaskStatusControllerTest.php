@@ -28,7 +28,7 @@ class TaskStatusControllerTest extends TestCase
     public function testCreate()
     {
         $response = $this->get(route('task_statuses.create'));
-        $response->assertRedirect();
+        $response->assertStatus(403);
     }
 
 
@@ -36,7 +36,7 @@ class TaskStatusControllerTest extends TestCase
     {
         $status = factory(\App\TaskStatus::class)->create();
         $response = $this->get(route('task_statuses.edit', $status));
-        $response->assertRedirect();
+        $response->assertStatus(403);
     }
 
     public function testCreateAuth()

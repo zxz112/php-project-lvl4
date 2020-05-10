@@ -40,14 +40,14 @@ class TaskTest extends TestCase
     public function testCreate()
     {
         $response = $this->get(route('tasks.create'));
-        $response->assertRedirect();
+        $response->assertStatus(403);
     }
 
     public function testEdit()
     {
         $task = factory(\App\Task::class)->create();
         $response = $this->get(route('tasks.edit', $task));
-        $response->assertRedirect();
+        $response->assertStatus(403);
     }
 
     public function testCreateAuth()

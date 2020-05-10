@@ -28,7 +28,7 @@ class LabelTest extends TestCase
     public function testCreate()
     {
         $response = $this->get(route('labels.create'));
-        $response->assertRedirect();
+        $response->assertStatus(403);
     }
 
 
@@ -36,7 +36,7 @@ class LabelTest extends TestCase
     {
         $label = factory(\App\Label::class)->create();
         $response = $this->get(route('labels.edit', $label));
-        $response->assertRedirect();
+        $response->assertStatus(403);
     }
 
     public function testCreateAuth()
