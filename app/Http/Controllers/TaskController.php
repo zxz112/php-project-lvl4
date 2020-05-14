@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
+use App\Http\Requests\TaskValidation;
 
 class TaskController extends Controller
 {
@@ -51,15 +52,10 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TaskValidation $request)
     {
         $this->authorize(Task::class);
-        $data = $this->validate($request, [
-            'name' => 'required',
-            'description' => '',
-            'task_status_id' => '',
-            'assigned_to_id' => '',
-        ]);
+        $data = $request->validated();
         $labels = $request['labels'];
         $task = new \App\Task();
         $task->fill($data);
@@ -104,15 +100,10 @@ class TaskController extends Controller
      * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(TaskValidation $request, Task $task)
     {
         $this->authorize(Task::class);
-        $data = $this->validate($request, [
-            'name' => 'required',
-            'description' => '',
-            'task_status_id' => '',
-            'assigned_to_id' => '',
-        ]);
+        $data = $request->validated();
         $labels = $request['labels'];
         $task->fill($data);
         $task->save();

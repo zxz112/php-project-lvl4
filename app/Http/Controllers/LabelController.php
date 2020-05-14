@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Label;
 use Illuminate\Http\Request;
 use Auth;
+use App\Http\Requests\LabelValidation;
 
 class LabelController extends Controller
 {
@@ -37,10 +38,10 @@ class LabelController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(LabelValidation $request)
     {
         $this->authorize(Label::class);
-        $data = $this->validate($request, ['name' => 'required|unique:labels']);
+        $data = $request->validated();
         $label = new Label();
         $label->fill($data);
         $label->save();
@@ -80,10 +81,10 @@ class LabelController extends Controller
      * @param  \App\Label  $label
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Label $label)
+    public function update(LabelValidation $request, Label $label)
     {
         $this->authorize(Label::class);
-        $data = $this->validate($request, ['name' => 'required|unique:labels']);
+        $data = $request->validated();
         $label->fill($data);
         $label->save();
         flash(__('success edit'))->success();

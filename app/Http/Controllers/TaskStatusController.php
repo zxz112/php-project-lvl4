@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\TaskStatus;
 use Illuminate\Http\Request;
 use Auth;
+use App\Http\Requests\TaskStatusValidation;
 
 class TaskStatusController extends Controller
 {
@@ -37,12 +38,10 @@ class TaskStatusController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TaskStatusValidation $request)
     {
         $this->authorize(TaskStatus::class);
-        $data = $this->validate($request, [
-        'name' => 'required|unique:task_statuses',
-        ]);
+        $data = $request->validated();
         $taskStatus = new TaskStatus();
         $taskStatus->fill($data);
         $taskStatus->save();
@@ -80,10 +79,10 @@ class TaskStatusController extends Controller
      * @param  \App\TaskStatus  $taskStatus
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TaskStatus $taskStatus)
+    public function update(TaskStatusValidation $request, TaskStatus $taskStatus)
     {
         $this->authorize(TaskStatus::class);
-        $data = $this->validate($request, ['name' => 'required|unique:task_statuses']);
+        $data = $request->validated();
         $taskStatus->fill($data);
         $taskStatus->save();
         flash(__('success edit'))->success();
