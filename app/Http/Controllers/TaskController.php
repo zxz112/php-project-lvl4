@@ -37,7 +37,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', Task::class);
+        $this->authorize(Task::class);
         $task = new Task();
         $statuses = \App\TaskStatus::get()->pluck('name', 'id');
         $labels = \App\Label::get()->pluck('name', 'id');
@@ -53,7 +53,7 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('store', Task::class);
+        $this->authorize(Task::class);
         $data = $this->validate($request, [
             'name' => 'required',
             'description' => '',
@@ -90,7 +90,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $this->authorize('edit', Task::class);
+        $this->authorize(Task::class);
         $statuses = \App\TaskStatus::get()->pluck('name', 'id');
         $users = \App\User::get()->pluck('name', 'id')->prepend('Assignee', '');
         $labels = \App\Label::get()->pluck('name', 'id');
@@ -106,7 +106,7 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        $this->authorize('update', Task::class);
+        $this->authorize(Task::class);
         $data = $this->validate($request, [
             'name' => 'required',
             'description' => '',
@@ -131,7 +131,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        $this->authorize('delete', $task);
+        $this->authorize($task);
         $task->delete();
         flash(__('success delete'))->success();
         return redirect()
