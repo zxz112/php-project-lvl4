@@ -60,11 +60,11 @@ class TaskController extends Controller
             'task_status_id' => '',
             'assigned_to_id' => '',
         ]);
-        $creator = \Auth::user();
         $labels = $request['labels'];
-        $data['created_by_id'] = $creator->id;
         $task = new \App\Task();
         $task->fill($data);
+        $creator = \Auth::user();
+        $task->creator()->associate($creator);
         $task->save();
         $task->labels()->sync($labels);
         flash(__('task has been added'))->success();
