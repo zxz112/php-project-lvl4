@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-use App\Http\Requests\TaskValidation;
+use App\Http\Requests\TaskRequest;
 
 class TaskController extends Controller
 {
@@ -52,7 +52,7 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TaskValidation $request)
+    public function store(TaskRequest $request)
     {
         $this->authorize(Task::class);
         $data = $request->validated();
@@ -100,7 +100,7 @@ class TaskController extends Controller
      * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(TaskValidation $request, Task $task)
+    public function update(TaskRequest $request, Task $task)
     {
         $this->authorize(Task::class);
         $data = $request->validated();

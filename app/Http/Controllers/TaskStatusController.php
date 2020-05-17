@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\TaskStatus;
 use Illuminate\Http\Request;
 use Auth;
-use App\Http\Requests\TaskStatusValidation;
+use App\Http\Requests\TaskStatusRequest;
 
 class TaskStatusController extends Controller
 {
@@ -38,7 +38,7 @@ class TaskStatusController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TaskStatusValidation $request)
+    public function store(TaskStatusRequest $request)
     {
         $this->authorize(TaskStatus::class);
         $data = $request->validated();
@@ -79,7 +79,7 @@ class TaskStatusController extends Controller
      * @param  \App\TaskStatus  $taskStatus
      * @return \Illuminate\Http\Response
      */
-    public function update(TaskStatusValidation $request, TaskStatus $taskStatus)
+    public function update(TaskStatusRequest $request, TaskStatus $taskStatus)
     {
         $this->authorize(TaskStatus::class);
         $data = $request->validated();

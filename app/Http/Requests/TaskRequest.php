@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LabelValidation extends FormRequest
+class TaskRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,10 @@ class LabelValidation extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:labels'
+            'name' => 'required',
+            'description' => '',
+            'task_status_id' => '',
+            'assigned_to_id' => '',
         ];
     }
 }
