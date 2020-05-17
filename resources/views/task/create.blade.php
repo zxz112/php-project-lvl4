@@ -13,7 +13,7 @@
     </div>
 @endif
 
-{{Form::model($task, ['url' => route('tasks.store')])}}
+{{Form::model($task, ['url' => route('tasks.store', $task)])}}
 <div class="form-group col-md-4"> 
     {{ Form::label('name', 'Name') }}
     {{ Form::text('name', '', ['class' => 'form-control']) }}

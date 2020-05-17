@@ -38,8 +38,8 @@ class TaskController extends Controller
      */
     public function create()
     {
-        $this->authorize(Task::class);
         $task = new Task();
+        $this->authorize($task);
         $statuses = \App\TaskStatus::get()->pluck('name', 'id');
         $labels = \App\Label::get()->pluck('name', 'id');
         $users = \App\User::get()->pluck('name', 'id')->prepend('Assignee', '');
@@ -52,9 +52,9 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TaskRequest $request)
+    public function store(TaskRequest $request, Task $task)
     {
-        $this->authorize(Task::class);
+        $this->authorize($task);
         $data = $request->validated();
         $labels = $request['labels'];
         $task = new \App\Task();
@@ -86,7 +86,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $this->authorize(Task::class);
+        $this->authorize($task);
         $statuses = \App\TaskStatus::get()->pluck('name', 'id');
         $users = \App\User::get()->pluck('name', 'id')->prepend('Assignee', '');
         $labels = \App\Label::get()->pluck('name', 'id');
@@ -102,7 +102,7 @@ class TaskController extends Controller
      */
     public function update(TaskRequest $request, Task $task)
     {
-        $this->authorize(Task::class);
+        $this->authorize($task);
         $data = $request->validated();
         $labels = $request['labels'];
         $task->fill($data);

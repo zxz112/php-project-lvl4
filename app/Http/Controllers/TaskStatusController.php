@@ -27,8 +27,8 @@ class TaskStatusController extends Controller
      */
     public function create()
     {
-        $this->authorize(TaskStatus::class);
         $taskStatus = new TaskStatus();
+        $this->authorize($taskStatus);
         return view('task_status.create', compact('taskStatus'));
     }
 
@@ -38,9 +38,9 @@ class TaskStatusController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TaskStatusRequest $request)
+    public function store(TaskStatusRequest $request, TaskStatus $taskStatus)
     {
-        $this->authorize(TaskStatus::class);
+        $this->authorize($taskStatus);
         $data = $request->validated();
         $taskStatus = new TaskStatus();
         $taskStatus->fill($data);
@@ -69,7 +69,7 @@ class TaskStatusController extends Controller
      */
     public function edit(TaskStatus $taskStatus)
     {
-        $this->authorize(TaskStatus::class);
+        $this->authorize($taskStatus);
         return view('task_status.edit', compact('taskStatus'));
     }
     /**
@@ -81,7 +81,7 @@ class TaskStatusController extends Controller
      */
     public function update(TaskStatusRequest $request, TaskStatus $taskStatus)
     {
-        $this->authorize(TaskStatus::class);
+        $this->authorize($taskStatus);
         $data = $request->validated();
         $taskStatus->fill($data);
         $taskStatus->save();
@@ -97,7 +97,7 @@ class TaskStatusController extends Controller
      */
     public function destroy(TaskStatus $taskStatus)
     {
-        $this->authorize(TaskStatus::class);
+        $this->authorize($taskStatus);
 
         $taskStatus->delete();
         flash(__('success delete'))->success();
