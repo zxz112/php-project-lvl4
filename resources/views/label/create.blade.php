@@ -12,7 +12,7 @@
         </ul>
     </div>
 @endif
-{{Form::model($label, ['url' => route('labels.store', $label)])}}
+{{Form::model($label, ['url' => route('labels.store')])}}
     {{ Form::label('name', 'Name') }}
     {{ Form::text('name') }}
     {{Form::submit('Add new!', ['class' => 'btn btn-warning btn-bg'])}}

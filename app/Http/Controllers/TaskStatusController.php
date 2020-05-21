@@ -38,11 +38,11 @@ class TaskStatusController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TaskStatusRequest $request, TaskStatus $taskStatus)
+    public function store(TaskStatusRequest $request)
     {
+        $taskStatus = new TaskStatus();
         $this->authorize($taskStatus);
         $data = $request->validated();
-        $taskStatus = new TaskStatus();
         $taskStatus->fill($data);
         $taskStatus->save();
         flash(__('status has been added'))->success();

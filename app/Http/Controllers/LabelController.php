@@ -38,11 +38,11 @@ class LabelController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(LabelRequest $request, Label $label)
+    public function store(LabelRequest $request)
     {
+        $label = new Label();
         $this->authorize($label);
         $data = $request->validated();
-        $label = new Label();
         $label->fill($data);
         $label->save();
         flash(__('label has been added'))->success();

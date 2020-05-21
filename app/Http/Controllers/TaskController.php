@@ -52,12 +52,12 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TaskRequest $request, Task $task)
+    public function store(TaskRequest $request)
     {
+        $task = new \App\Task();
         $this->authorize($task);
         $data = $request->validated();
         $labels = $request['labels'];
-        $task = new \App\Task();
         $task->fill($data);
         $creator = \Auth::user();
         $task->creator()->associate($creator);
