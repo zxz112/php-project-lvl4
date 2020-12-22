@@ -26,3 +26,13 @@ Route::resource('task_statuses', 'TaskStatusController');
 Route::resource('tasks', 'TaskController');
 
 Route::resource('labels', 'LabelController');
+
+Route::resource('people', 'PeopleController');
+
+Route::resource('groups', 'GroupPeopleController');
+
+Route::resource('excel', 'ExcelController');
+
+Route::get('/makeXml', 'PeopleController@createXml')->name('xml');
+
+

@@ -98,7 +98,6 @@ class TaskStatusController extends Controller
     public function destroy(TaskStatus $taskStatus)
     {
         $this->authorize($taskStatus);
-
         $taskStatus->delete();
         flash(__('success delete'))->success();
         return redirect()->route('task_statuses.index');

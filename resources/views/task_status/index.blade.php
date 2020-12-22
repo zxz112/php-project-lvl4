@@ -33,7 +33,7 @@
                         @if (\Auth::check())
                         <td><a href="{{route('task_statuses.destroy', $status)}}" data-confirm="Вы уверены?" data-method="delete" rel="nofollow">@lang('action.delete')
                         <a href="{{route('task_statuses.edit', $status)}}">@lang('action.edit')</td>
-                        </td>   
+                        </td>
                         @endif
                     </tr>
                 @endforeach
@@ -41,5 +41,5 @@
         </table>
         {{$taskStatuses->links()}}
     <div>
-</div>    
+</div>
 @endsection
