@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Excel;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class ExcelController extends Controller
 {
@@ -14,7 +17,7 @@ class ExcelController extends Controller
      */
     public function index()
     {
-        $excel = Excel::paginate();
+        $excel = Excel::get();
         return view('excel.index', compact('excel'));
     }
 
@@ -46,6 +49,48 @@ class ExcelController extends Controller
         return redirect()->route('tasks.index');
     }
 
+    public function generate(Request $request)
+    {
+        $people = $request['people'];
+        $excel = new Excel();
+        $excel->save();
+        $excel->people()->sync($people);
+
+        $persons = \App\People::find($people);
+        $groupPerson = [];
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        foreach($persons as $person) {
+            $groupPerson[$person->group->id][] = [
+                'personId' => $person->id,
+                'personName' => $person->name,
+                'groupId' => $person->group->id,
+            ];
+        }
+        $arrCells = [
+            1 => 'E',
+            2 => 'A',
+            3 => 'C',
+            4 => 'D',
+            5 => 'B',
+            6 => 'F'
+        ];
+        $file1 = '../public/hello world.xlsx';
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file1);
+        $worksheet = $spreadsheet->getActiveSheet();
+        foreach($groupPerson as $key => $value) {
+            foreach ($value as $k => $val) {
+                $i =  $k + 1;
+                $worksheet->setCellValue($arrCells[$key] . $i , $val['personName']);
+            }
+        }
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('hello.xls');
+
+//        $writer = new Xlsx($spreadsheet);
+//        $writer->save($file1);
+        return redirect()->route('tasks.index');
+    }
     /**
      * Display the specified resource.
      *

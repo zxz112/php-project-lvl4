@@ -17,7 +17,7 @@ class PeopleController extends Controller
 
         $writer = new Xlsx($spreadsheet);
         $writer->save('hello world.xlsx');
-        $people = People::paginate();
+        $people = People::get();
         $groups = \App\GroupPeople::get()->pluck('name', 'id');
         return view('people.index', compact('people', 'groups'));
     }
@@ -31,9 +31,13 @@ class PeopleController extends Controller
 
     public function createXml()
     {
-        $people = People::paginate();
+        $people = People::get();
         $groups = \App\GroupPeople::get()->pluck('name', 'id');
-        return view('people.xml', compact('people', 'groups'));
+        $groupsPeople = [];
+        foreach ($people as $person) {
+            $groupsPeople[$person->group->name][] = $person;
+        }
+        return view('people.xml', compact('groupsPeople'));
     }
 
     public function store(Request $request)
