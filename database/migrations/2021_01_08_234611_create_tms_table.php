@@ -18,7 +18,7 @@ class CreateTmsTable extends Migration
             $table->timestamps();
             $table->bigInteger('english');
             $table->bigInteger('learning');
-            $table->bigInteger('gym');
+            $table->string('gym');
             $table->string('date');
         });
     }
