@@ -2,7 +2,7 @@
 @section('content')
     <div class="container">
         <div class="calendar">
-            <? $dayNow =  strtotime(date('14.01.2021')) ?>
+            <? $dayNow =  strtotime(date('d.m.Y')) ?>
             @foreach ($period as $day)
                 <div class="calendar__date <?if (strtotime($day['date']) == $dayNow) { echo 'calendar__now'; } ?>
                 <? if ($day['success']) { echo 'success'; }?>

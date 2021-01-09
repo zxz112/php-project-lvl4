@@ -25,7 +25,7 @@ class TmsController extends Controller
             'Суббота',
             'Воскресенье',
             ];
-        $dates = CarbonPeriod::create('2021-01-11', '2021-02-11');
+        $dates = CarbonPeriod::create('2021-01-01', '2021-02-11');
         $completedDays = Tms::get();
         $period = [];
         foreach ($dates as $day) {
