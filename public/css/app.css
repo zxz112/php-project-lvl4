@@ -10901,10 +10901,6 @@ a.text-dark:focus {
 .calendar__date:hover {
 
 }
-.success {
-    background: greenyellow;
-    color: #1d2124;
-}
 .calendar__time {
     font-size: 10px;
 }
@@ -10942,4 +10938,12 @@ a.text-dark:focus {
 .calendar__now.success {
     background: darkgreen;
     color: white;
+}
+.calendar__date.completed {
+    background: red;
+    color: white;
+}
+.calendar__date.success {
+    background: greenyellow;
+    color: #1d2124;
 }

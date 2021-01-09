@@ -26,27 +26,27 @@ class TmsController extends Controller
             'Воскресенье',
             ];
         $dates = CarbonPeriod::create('2021-01-11', '2021-02-11');
-//        $completedDays = Tms::get();
+        $completedDays = Tms::get();
         $period = [];
         foreach ($dates as $day) {
-//            foreach ($completedDays as $complete) {
-//                if ($complete['date'] == $day->format('d.m.Y')) {
-//                    $period[$day->format('Y-m-d')] = [
-//                        'date' => $day->format('d.m.Y'),
-//                        'english' => $complete->english,
-//                        'learning' => $complete->learning,
-//                        'gym' => $complete->gym,
-//                        'completed' => true,
-//                        'dayName' => $days[$day->dayOfWeekIso - 1]
-//                    ];
-//                    if ($complete->english >= 1 && $complete->learning >= 1) {
-//                        $period[$day->format('Y-m-d')]['success'] = true;
-//                    } else {
-//                        $period[$day->format('Y-m-d')]['success'] = false;
-//                    }
-//                }
-//            }
-//            if (!array_key_exists($day->format('Y-m-d'), $period)) {
+            foreach ($completedDays as $complete) {
+                if ($complete['date'] == $day->format('d.m.Y')) {
+                    $period[$day->format('Y-m-d')] = [
+                        'date' => $day->format('d.m.Y'),
+                        'english' => $complete->english,
+                        'learning' => $complete->learning,
+                        'gym' => $complete->gym,
+                        'completed' => true,
+                        'dayName' => $days[$day->dayOfWeekIso - 1]
+                    ];
+                    if ($complete->english >= 1 && $complete->learning >= 1) {
+                        $period[$day->format('Y-m-d')]['success'] = true;
+                    } else {
+                        $period[$day->format('Y-m-d')]['success'] = false;
+                    }
+                }
+            }
+            if (!array_key_exists($day->format('Y-m-d'), $period)) {
                 $period[$day->format('Y-m-d')] = [
                     'date' => $day->format('d.m.Y'),
                     'english' => '',
@@ -56,7 +56,7 @@ class TmsController extends Controller
                     'success' => false,
                     'dayName' => $days[$day->dayOfWeekIso - 1]
                 ];
-//            }
+            }
         }
         return view('time.index', compact('period'));
     }
