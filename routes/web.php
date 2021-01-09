@@ -33,6 +33,8 @@ Route::resource('groups', 'GroupPeopleController');
 
 Route::resource('excel', 'ExcelController');
 
+Route::post('/tms/addday', 'TmsController@addday');
+
+Route::resource('tms', 'TmsController');
+
 Route::get('/makeXml', 'PeopleController@createXml')->name('xml');
-
-

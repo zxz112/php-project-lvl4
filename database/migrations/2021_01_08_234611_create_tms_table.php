@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateExcelPeopleTable extends Migration
+class CreateTmsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateExcelPeopleTable extends Migration
      */
     public function up()
     {
-        Schema::create('excel_people', function (Blueprint $table) {
+        Schema::create('tms', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('excel_id');
-            $table->bigInteger('people_id');
-            $table->boolean('gym');
             $table->timestamps();
+            $table->bigInteger('english');
+            $table->bigInteger('learning');
+            $table->bigInteger('gym');
+            $table->string('date');
         });
     }
 
@@ -29,6 +30,6 @@ class CreateExcelPeopleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('excel_people');
+        Schema::dropIfExists('tms');
     }
 }

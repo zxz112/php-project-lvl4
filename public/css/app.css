@@ -10882,3 +10882,64 @@ a.text-dark:focus {
   }
 }
 
+.calendar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: relative;
+}
+.calendar__date {
+    height: 150px;
+    border: 2px solid black;
+    text-align: center;
+    flex: 0 1 13%;
+    opacity: 0.9;
+    background: whitesmoke;
+    display: flex;
+    flex-direction: column;
+}
+.calendar__date:hover {
+
+}
+.success {
+    background: greenyellow;
+    color: #1d2124;
+}
+.calendar__time {
+    font-size: 10px;
+}
+.check_time {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 5px;
+    justify-content: space-between;
+}
+
+.calendar__input {
+    max-width: 50px;
+}
+.no_complete {
+    opacity: 0.5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.calendar__now {
+    background: #a1cbef;
+    opacity: 1;
+    transform: scale(1.1);
+    opacity: 1;
+    z-index: 100;
+}
+.completed {
+    transform: scale(1);
+}
+.calendar__now.completed {
+    background: yellow;
+    color: black;
+}
+.calendar__now.success {
+    background: darkgreen;
+    color: white;
+}
