@@ -1,5 +1,4 @@
 @extends('layouts.calendar')
-
 @section('content')
     <div class="container">
         <div class="calendar">
